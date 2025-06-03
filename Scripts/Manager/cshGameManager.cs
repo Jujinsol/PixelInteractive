@@ -1,0 +1,108 @@
+using System.Collections;
+using System.Collections.Generic;
+using System.Xml.Linq;
+using UnityEngine;
+using UnityEngine.SceneManagement;
+
+public class cshGameManager : MonoBehaviour
+{
+    public static cshGameManager _inst;
+    public GameObject _player;
+    private GameObject _eagle;
+    public int _badthings = 0;
+
+    Dictionary<string, Vector3> _eagleSpawnPositions = new Dictionary<string, Vector3>();
+
+    /*
+    public static void InstantiateMonster(string Name)
+    {
+        GameObject go = Instantiate(Resources.Load<GameObject>($"Prefabs/Monster/{Name}"));
+        go.name = Name;
+    }
+
+    public static void InstantiatePlayer(string Name)
+    {
+        GameObject go = Instantiate(Resources.Load<GameObject>($"Prefabs/{Name}"));
+        go.name = Name;
+    }
+
+    public static void InstantiateUI(string Name)
+    {
+        GameObject go = Instantiate(Resources.Load<GameObject>($"Prefabs/UI/{Name}"));
+        go.name = Name;
+    }
+
+    public static void InstantiateMap(string Name)
+    {
+        GameObject go = Instantiate(Resources.Load<GameObject>($"Prefabs/Map/{Name}"));
+        go.name = Name;
+    }
+
+    public static void Destroy(string Name)
+    {
+        GameObject go = GameObject.Find(Name);
+        if (go == null)
+            return;
+        Destroy(go);
+    }
+    */
+
+    void Start()
+    {
+        DontDestroyOnLoad(this);
+        Time.timeScale = 1f;
+        _inst = this;
+    }
+
+    void OnEnable()
+    {
+        // 씬 매니저의 sceneLoaded에 체인을 건다.
+        SceneManager.sceneLoaded += OnSceneLoaded;
+    }
+
+    void OnSceneLoaded(Scene arg0, LoadSceneMode arg1)
+    {
+        if (SceneManager.GetActiveScene().name == "Map1")
+        {
+            _player = GameObject.Find("Player").gameObject;
+            _eagle = Resources.Load<GameObject>("Prefabs/Eagle");
+            _player.transform.position = new Vector3(0, 3, 0);
+
+            _eagleSpawnPositions.Add("Eagle1", new Vector3(21, 5.5f, 0));
+            _eagleSpawnPositions.Add("Eagle2", new Vector3(50, -0.5f, 0));
+            _eagleSpawnPositions.Add("Eagle3", new Vector3(37, -0.5f, 0));
+
+            foreach (var entry in _eagleSpawnPositions)
+            {
+                StartCoroutine(SpawnMonsterAfterDelay(0f, entry.Value, entry.Key));
+            }
+        }
+        else if (SceneManager.GetActiveScene().name == "Map2")
+        {
+            _player = GameObject.Find("Player").gameObject;
+            Debug.Log(_player.name);
+            _player.transform.position = GameObject.Find("Portal").transform.position;
+        }
+    }
+
+    private void FixedUpdate()
+    {
+        if (_player == null) return;
+        Camera.main.transform.position = new Vector3(_player.transform.position.x, _player.transform.position.y, -10);
+    }
+
+    public IEnumerator SpawnMonsterAfterDelay(float delay, Vector3 position, string name = "Eagle")
+    {
+        yield return new WaitForSeconds(delay);
+        GameObject go = Instantiate(_eagle, position, Quaternion.identity);
+        go.name = name;
+    }
+
+    public Vector3 GetSpawnPositionByName(string eagleName)
+    {
+        if (_eagleSpawnPositions.ContainsKey(eagleName))
+            return _eagleSpawnPositions[eagleName];
+        else
+            return Vector3.zero;
+    }
+}
