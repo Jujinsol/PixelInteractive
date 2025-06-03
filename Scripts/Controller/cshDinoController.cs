@@ -7,6 +7,8 @@ public class cshDinoController : MonoBehaviour
 {
     public int _hp;
     protected Animator _animator;
+    AudioSource _audioSource;
+    AudioClip _audioClip;
 
     public int Hp
     {
@@ -18,6 +20,7 @@ public class cshDinoController : MonoBehaviour
     {
         _hp = 100;
         _animator = GetComponent<Animator>();
+        _audioSource = GetComponent<AudioSource>();
     }
 
     public virtual void Hurt()
@@ -33,6 +36,10 @@ public class cshDinoController : MonoBehaviour
 
     protected virtual void Die()
     {
+        _audioClip = Resources.Load<AudioClip>("Sound/Die");
+        _audioSource.clip = _audioClip;
+        _audioSource.Play();
+
         _animator.SetTrigger("die");
         Destroy(gameObject, 0.8f);
         cshGameManager._inst._badthings+=5;

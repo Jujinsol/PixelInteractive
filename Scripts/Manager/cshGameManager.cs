@@ -10,6 +10,11 @@ public class cshGameManager : MonoBehaviour
     public GameObject _player;
     private GameObject _eagle;
     public int _badthings = 0;
+    public GameObject _arrow;
+    public int _attackPower = 10;
+
+    AudioSource _audioSource;
+    AudioClip _audioClip;
 
     Dictionary<string, Vector3> _eagleSpawnPositions = new Dictionary<string, Vector3>();
 
@@ -52,6 +57,9 @@ public class cshGameManager : MonoBehaviour
         DontDestroyOnLoad(this);
         Time.timeScale = 1f;
         _inst = this;
+
+        _arrow = Resources.Load<GameObject>("Prefabs/Arrow");
+        _audioSource = GetComponent<AudioSource>();
     }
 
     void OnEnable()
@@ -71,6 +79,9 @@ public class cshGameManager : MonoBehaviour
             _eagleSpawnPositions.Add("Eagle1", new Vector3(21, 5.5f, 0));
             _eagleSpawnPositions.Add("Eagle2", new Vector3(50, -0.5f, 0));
             _eagleSpawnPositions.Add("Eagle3", new Vector3(37, -0.5f, 0));
+            _eagleSpawnPositions.Add("Eagle4", new Vector3(67, 3.5f, 0));
+            _eagleSpawnPositions.Add("Eagle5", new Vector3(133, 17.5f, 0));
+            _eagleSpawnPositions.Add("Eagle6", new Vector3(139, -2.5f, 0));
 
             foreach (var entry in _eagleSpawnPositions)
             {
@@ -104,5 +115,12 @@ public class cshGameManager : MonoBehaviour
             return _eagleSpawnPositions[eagleName];
         else
             return Vector3.zero;
+    }
+
+    public void ButtonClick()
+    {
+        _audioClip = Resources.Load<AudioClip>("Sound/Click");
+        _audioSource.clip = _audioClip;
+        _audioSource.Play();
     }
 }

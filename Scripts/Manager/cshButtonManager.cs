@@ -28,11 +28,13 @@ public class cshButtonManager : MonoBehaviour
 
     public void StartGame()
     {
+        cshGameManager._inst.ButtonClick();
         SceneManager.LoadScene("Map1");
     }
 
     public void Retry()
     {
+        cshGameManager._inst.ButtonClick();
         SceneManager.LoadScene("Opening");
     }
 }

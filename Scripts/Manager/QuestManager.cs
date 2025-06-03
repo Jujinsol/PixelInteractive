@@ -70,7 +70,7 @@ public class QuestManager : MonoBehaviour
         if (SceneManager.GetActiveScene().name == "Map1")
         {
             _currentMission = 0;
-            QuestText.transform.Find("txtQuest").GetComponent<TextMeshProUGUI>().text = "산책을 하다가 엄마의 다이아몬드를 잃어버렸어... \n찾아줄 수 있어?";
+            QuestText.transform.Find("txtQuest").GetComponent<TextMeshProUGUI>().text = "저 독수리들은 다이아를 갖고 있어.\n나도 하나 갖고 싶은걸?";
             GameObject.Find("Canvas").transform.Find("ImgQuest").Find("btnYes").gameObject.GetComponent<Button>().onClick.AddListener(AcceptQuest);
             GameObject.Find("Canvas").transform.Find("ImgQuest").Find("btnNo").gameObject.GetComponent<Button>().onClick.AddListener(RejectQuest);
         }
@@ -95,6 +95,8 @@ public class QuestManager : MonoBehaviour
 
     public void AcceptQuest()
     {
+        cshGameManager._inst.ButtonClick();
+
         QuestText.transform.Find("btnYes").gameObject.SetActive(false);
         QuestText.transform.Find("btnNo").gameObject.SetActive(false);
 
@@ -120,6 +122,7 @@ public class QuestManager : MonoBehaviour
         //GameObject npc = GameObject.FindGameObjectWithTag("NPC").gameObject;
         //npc.GetComponent<NPCController>().enabled = true;
         _acceptQuest = false;
+        cshGameManager._inst.ButtonClick();
 
         _questText.transform.Find("btnYes").gameObject.SetActive(false);
         _questText.transform.Find("btnNo").gameObject.SetActive(false);
@@ -128,8 +131,8 @@ public class QuestManager : MonoBehaviour
         switch (_currentMission)
         {
             case 0:
-                _questText.transform.Find("txtQuest").GetComponent<TextMeshProUGUI>().text = "도움을 주기 싫은 모양이네...";
-                cshGameManager._inst._badthings += 5;
+                _questText.transform.Find("txtQuest").GetComponent<TextMeshProUGUI>().text = "나 혼자 찾아보지 뭐...";
+                cshGameManager._inst._badthings -= 5;
                 break;
             case 1:
             case 2:
@@ -147,12 +150,12 @@ public class QuestManager : MonoBehaviour
         _diamond++;
         if (_acceptQuest && _diamond >= 1)
         {
-            _diamondQuest.transform.Find("txtDiamond").GetComponent<TextMeshProUGUI>().fontSize = 17;
-            _diamondQuest.transform.Find("txtDiamond").GetComponent<TextMeshProUGUI>().text = "NPC에게로 돌아가기";
+            DiamondQuest.transform.Find("txtDiamond").GetComponent<TextMeshProUGUI>().fontSize = 17;
+            DiamondQuest.transform.Find("txtDiamond").GetComponent<TextMeshProUGUI>().text = "NPC에게로 돌아가기";
             MissionComplete();
         }
         else
-            _diamondQuest.transform.Find("txtDiamond").GetComponent<TextMeshProUGUI>().text = _diamond + " / 5";
+            DiamondQuest.transform.Find("txtDiamond").GetComponent<TextMeshProUGUI>().text = _diamond + " / 5";
     }
 
     public void MissionComplete()
@@ -172,17 +175,22 @@ public class QuestManager : MonoBehaviour
 
     public void CloseTheft()
     {
+        cshGameManager._inst.ButtonClick();
         TheftQuest.SetActive(false);
-        Debug.Log(_theftColor);
         _theftColor = "";
         SliderTheft.value = 0;
     }
 
     public void SubmitTheft()
     {
+        cshGameManager._inst.ButtonClick();
         if (_theftColor == "redgreenblueyellow" && (SliderTheft.value < 0.75 && SliderTheft.value > 0.6))
         {
             Debug.Log("OK");
+            cshHouseController._inst.DoorUnlock();
+
+            TheftQuest.SetActive(false);
+            _acceptQuest = false;
         }
         else
         {
@@ -210,8 +218,8 @@ public class QuestManager : MonoBehaviour
         // 마우스 클릭될 때까지 기다림
         yield return new WaitUntil(() => Input.GetMouseButtonDown(0));
 
-        cshPlayerController._inst._arrow = Resources.Load<GameObject>("Prefabs/PowerArrow");
-        cshPlayerController._inst._attackPower += 10;
+        cshGameManager._inst._arrow = Resources.Load<GameObject>("Prefabs/PowerArrow");
+        cshGameManager._inst._attackPower += 20;
         _diamondQuest.SetActive(false);
         _questText.transform.Find("txtQuest").GetComponent<TextMeshProUGUI>().text = "날씨가 참 좋네!";
         _acceptQuest = false;

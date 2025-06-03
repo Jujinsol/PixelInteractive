@@ -42,7 +42,7 @@ public class EagleController : cshMonsterController
 
     public override void Hurt()
     {
-        _hp -= cshPlayerController._inst._attackPower;
+        _hp -= cshGameManager._inst._attackPower;
         _sliderHpBar.value = _hp;
 
         _animator.SetBool("walk", false);

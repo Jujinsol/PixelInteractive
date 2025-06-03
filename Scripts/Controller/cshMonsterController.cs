@@ -12,6 +12,8 @@ public class cshMonsterController : MonoBehaviour
 
     protected Animator _animator;
     FinalDir _finalDir;
+    AudioSource _audioSource;
+    AudioClip _audioClip;
 
     public GameObject prfHpBar;
     public GameObject canvas;
@@ -57,6 +59,7 @@ public class cshMonsterController : MonoBehaviour
         hpBar = Instantiate(prfHpBar, canvas.transform).GetComponent<RectTransform>();
         hpBar.name = gameObject.name + "_hpBar";
         _sliderHpBar = hpBar.GetComponent<Slider>();
+        _audioSource = GetComponent<AudioSource>();
 
         _hp = 100;
         _sliderHpBar.maxValue = 100;
@@ -101,6 +104,10 @@ public class cshMonsterController : MonoBehaviour
 
     protected virtual void Die()
     {
+        _audioClip = Resources.Load<AudioClip>("Sound/Die");
+        _audioSource.clip = _audioClip;
+        _audioSource.Play();
+
         cshGameManager._inst._badthings++;
         Debug.Log("The bad things I’ve done : " + cshGameManager._inst._badthings);
         FinalDir = FinalDir.None;
