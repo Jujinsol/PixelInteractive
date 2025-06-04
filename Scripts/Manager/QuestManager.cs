@@ -8,8 +8,9 @@ using static UnityEngine.GraphicsBuffer;
 public class QuestManager : MonoBehaviour
 {
     public static QuestManager _inst;
-    public GameObject _questText, _diamondQuest, _theftQuest;
-    public Slider _sliderTheft;
+    GameObject _questText, _diamondQuest, _theftQuest;
+    Slider _sliderTheft;
+
     public bool _acceptQuest = false, iAmTheft = false;
     public int _diamond = 0, _currentMap = 0, _currentMission = 0;
     public string _theftColor = "";
