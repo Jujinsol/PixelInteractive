@@ -88,11 +88,19 @@ public class cshGameManager : MonoBehaviour
                 StartCoroutine(SpawnMonsterAfterDelay(0f, entry.Value, entry.Key));
             }
         }
-        else if (SceneManager.GetActiveScene().name == "Map2")
+        else if (SceneManager.GetActiveScene().name == "Map2" && !QuestManager._inst.iAmTheft)
         {
             _player = GameObject.Find("Player").gameObject;
-            Debug.Log(_player.name);
             _player.transform.position = GameObject.Find("Portal").transform.position;
+        }
+        else if (SceneManager.GetActiveScene().name == "Map2" && QuestManager._inst.iAmTheft)
+        {
+            _player = GameObject.Find("Player").gameObject;
+            _player.transform.position = new Vector3(21, 4, 0);
+        }
+        else if (SceneManager.GetActiveScene().name == "Map3")
+        {
+            _player = GameObject.Find("littlePlayer").gameObject;
         }
     }
 
@@ -120,6 +128,13 @@ public class cshGameManager : MonoBehaviour
     public void ButtonClick()
     {
         _audioClip = Resources.Load<AudioClip>("Sound/Click");
+        _audioSource.clip = _audioClip;
+        _audioSource.Play();
+    }
+
+    public void ButtonFailed()
+    {
+        _audioClip = Resources.Load<AudioClip>("Sound/ClickFail");
         _audioSource.clip = _audioClip;
         _audioSource.Play();
     }

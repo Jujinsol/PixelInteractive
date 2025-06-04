@@ -85,6 +85,16 @@ public class cshMonsterController : MonoBehaviour
         {
             Attack();
         }
+        else if (collision.gameObject.tag == "Carrot")
+        {
+            _audioClip = Resources.Load<AudioClip>("Sound/Item");
+            _audioSource.clip = _audioClip;
+            _audioSource.Play();
+
+            Cure();
+            Debug.Log("Eat Carrot");
+            Destroy(collision.gameObject);
+        }
     }
 
     public virtual void Attack()
@@ -112,6 +122,16 @@ public class cshMonsterController : MonoBehaviour
         Debug.Log("The bad things I’ve done : " + cshGameManager._inst._badthings);
         FinalDir = FinalDir.None;
         _isDead = true;
+    }
+
+    void Cure()
+    {
+        _hp += 10;
+        if (_hp >= 100) _hp = 100;
+        _sliderHpBar.value = _hp;
+
+        cshGameManager._inst._badthings -= 2;
+        Debug.Log("The bad things I’ve done : " + cshGameManager._inst._badthings);
     }
 
     protected virtual void Move()

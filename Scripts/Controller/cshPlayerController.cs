@@ -10,8 +10,8 @@ public class cshPlayerController : MonoBehaviour
 {
     public static cshPlayerController _inst;
 
-    float shootCoolTime, carrotCoolTime, _speed = 7.0f, _jumpPower = 10.0f;
-    bool _isGround, _isJump = false, _canGoNext = false;
+    protected float shootCoolTime, carrotCoolTime, _speed = 7.0f, _jumpPower = 10.0f;
+    protected bool _isGround, _isJump = false, _canGoNext = false;
     public int _hp = 100;
 
     public GameObject _BowCoolTime,_CarrotCoolTime, _playerHPBar;
@@ -20,12 +20,12 @@ public class cshPlayerController : MonoBehaviour
     public Transform _spawnPoint;
 
     GameObject gameOverUI;
-    Animator _animator;
-    AudioSource _audioSource;
-    AudioClip _audioClip;
+    protected Animator _animator;
+    protected AudioSource _audioSource;
+    protected AudioClip _audioClip;
 
-    FinalDir _finalDir;
-    MoveDir _dir;
+    protected FinalDir _finalDir;
+    protected MoveDir _dir;
 
     public MoveDir Dir
     {
@@ -73,6 +73,7 @@ public class cshPlayerController : MonoBehaviour
         //DontDestroyOnLoad(this);
 
         _inst = this;
+        Dir = MoveDir.Right;
         shootCoolTime = 0.0f;
         carrotCoolTime = 0.0f;
         _animator = GetComponent<Animator>();
@@ -95,8 +96,6 @@ public class cshPlayerController : MonoBehaviour
         _playerHPSlider = _playerHPBar.GetComponent<Slider>();
         _playerHPSlider.maxValue = 100;
         _playerHPSlider.value = 100;
-
-        Init();
     }
 
     void FixedUpdate()
@@ -106,13 +105,6 @@ public class cshPlayerController : MonoBehaviour
         _BowCoolTimeSilder.value = Mathf.Clamp01(1f - shootCoolTime);
         _CarrotCoolTimeSlider.value = Mathf.Clamp01(1 - (carrotCoolTime / 2.5f));
         Moving();
-    }
-
-    protected void Init()
-    {
-        Vector3 pos = new Vector3(0, 3, 0);
-        transform.position = pos;
-        Dir = MoveDir.Right;
     }
 
     void OnCollisionEnter2D(Collision2D collision)
@@ -175,69 +167,9 @@ public class cshPlayerController : MonoBehaviour
         }
     }
 
-    protected virtual void Moving()
-    {
-        if (Input.GetKey(KeyCode.A))
-        {
-            Dir = MoveDir.Left;
-            _animator.SetTrigger("walk");
-            transform.position += Vector3.left * Time.deltaTime * _speed;
+    protected virtual void Moving() { }
 
-            _isJump = false;
-        }
-        else if (Input.GetKey(KeyCode.D))
-        {
-            Dir = MoveDir.Right;
-            _animator.SetTrigger("walk");
-            transform.position += Vector3.right * Time.deltaTime * _speed;
-
-            _isJump = false;
-        }
-        else if (Input.GetKey(KeyCode.W) && _isGround && !_isJump)
-        {
-            _audioClip = Resources.Load<AudioClip>("Sound/Jump");
-            _audioSource.clip = _audioClip;
-            _audioSource.Play();
-
-            Dir = MoveDir.Up;
-            _animator.SetTrigger("jump");
-            GetComponent<Rigidbody2D>().AddForce(Vector2.up * _jumpPower, ForceMode2D.Impulse);
-
-            _isJump = true;
-            _isGround = false;
-        }
-        else if (!_canGoNext && Input.GetKey(KeyCode.Space) && shootCoolTime > 1f)
-        {
-            _audioClip = Resources.Load<AudioClip>("Sound/Attack");
-            _audioSource.clip = _audioClip;
-            _audioSource.Play();
-
-            Shoot();
-            _isJump = false;
-            shootCoolTime = 0.0f;
-        }
-        else if (Input.GetKey(KeyCode.E) && carrotCoolTime > 2.5f)
-        {
-            GameObject item = Resources.Load<GameObject>("Prefabs/Carrot");
-            Instantiate(item, new Vector3(transform.position.x, transform.position.y - 0.3f, 0), new Quaternion(0, 0, 0, 0));
-
-            carrotCoolTime = 0.0f;
-        }
-        else if (_canGoNext && Input.GetKey(KeyCode.Space))
-        {
-            if (SceneManager.GetActiveScene().name == "Map1")
-                SceneManager.LoadScene("Map2");
-            if (SceneManager.GetActiveScene().name == "Map2")
-                SceneManager.LoadScene("Map1");
-        }
-        else
-        {
-            Dir = MoveDir.None;
-            _animator.SetTrigger("idle");
-        }
-    }
-
-    void Shoot()
+    protected void Shoot()
     {
         _animator.SetTrigger("attack");
         GameObject newArrow;
@@ -255,7 +187,7 @@ public class cshPlayerController : MonoBehaviour
     {
         _animator.SetTrigger("hurt");
 
-        _hp -= 50;
+        _hp -= 30;
         if (_hp <= 0) Die();
         _playerHPSlider.value = _hp;
     }
