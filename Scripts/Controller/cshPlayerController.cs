@@ -204,7 +204,7 @@ public class cshPlayerController : MonoBehaviour
         Time.timeScale = 0f;
     }
 
-    void Cure()
+    public void Cure()
     {
         _hp += 10;
         if (_hp >= 100) _hp = 100;

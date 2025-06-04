@@ -129,7 +129,6 @@ public class QuestManager : MonoBehaviour
                 break;
             case 2:
                 QuestText.transform.Find("txtQuest").GetComponent<TextMeshProUGUI>().text = "크크... 문 근처로 가서 문을 따줘\n난 여기서 망을 볼게.";
-                cshGameManager._inst._badthings += 10;
                 break;
             case 3:
                 switch (_currentMission)
@@ -138,10 +137,14 @@ public class QuestManager : MonoBehaviour
                         StartCoroutine(FadeSequence());
                         break;
                     case 2:
+                        QuestText.transform.Find("txtQuest").GetComponent<TextMeshProUGUI>().text = "너무 무거워서 들지 못하겠는데?";
                         break;
                     case 3:
+                        QuestText.transform.Find("txtQuest").GetComponent<TextMeshProUGUI>().text = "먹다 남은 사과라니... 이거라도 챙겨야지.";
+                        cshPlayerController._inst.Cure();
                         break;
                     case 5:
+                        StartCoroutine(FadeSequence());
                         break;
                     case 7:
                         QuestText.transform.Find("txtQuest").GetComponent<TextMeshProUGUI>().text = "아무래도 한 몫 챙겨야겠어.";
@@ -151,6 +154,7 @@ public class QuestManager : MonoBehaviour
                 break;
         }
 
+        cshGameManager._inst._badthings += 10;
         _acceptQuest = true;
     }
 
@@ -169,20 +173,35 @@ public class QuestManager : MonoBehaviour
         {
             case 0:
                 QuestText.transform.Find("txtQuest").GetComponent<TextMeshProUGUI>().text = "나 혼자 찾아보지 뭐...";
-                cshGameManager._inst._badthings -= 5;
                 break;
             case 1:
             case 2:
                 GameObject.Find("Dino").GetComponent<BoxCollider2D>().enabled = false;
                 QuestText.transform.Find("txtQuest").GetComponent<TextMeshProUGUI>().text = "겁쟁이...";
-                cshGameManager._inst._badthings -= 5;
                 break;
             case 3:
-                QuestText.transform.Find("txtQuest").GetComponent<TextMeshProUGUI>().text = "도둑질을 하려니까 양심에 찔리는 걸...";
-                cshGameManager._inst._badthings -= 5;
+                switch (_currentMission)
+                {
+                    case 1:
+                        QuestText.transform.Find("txtQuest").GetComponent<TextMeshProUGUI>().text = "남 집에서 잠이나 잘 생각을 하다니!";
+                        break;
+                    case 2:
+                        QuestText.transform.Find("txtQuest").GetComponent<TextMeshProUGUI>().text = "도둑질을 하려니까 양심에 찔리는 걸...";
+                        break;
+                    case 3:
+                        QuestText.transform.Find("txtQuest").GetComponent<TextMeshProUGUI>().text = "남의 집 냉장고를 함부로 여는 사람은 되고 싶지 않아.";
+                        break;
+                    case 5:
+                        QuestText.transform.Find("txtQuest").GetComponent<TextMeshProUGUI>().text = "목욕이라니!\n머리가 정말 어떻게 됐나 봐...";
+                        break;
+                    case 7:
+                        QuestText.transform.Find("txtQuest").GetComponent<TextMeshProUGUI>().text = "도둑질을 하려니까 양심에 찔리는 걸...";
+                        break;
+                }
                 break;
         }
 
+        cshGameManager._inst._badthings -= 3;
         Debug.Log("The bad things I’ve done : " + cshGameManager._inst._badthings);
     }
 
@@ -316,6 +335,9 @@ public class QuestManager : MonoBehaviour
         yield return StartCoroutine(FadeIn());
         yield return new WaitForSeconds(1f); // 중간에 잠깐 정지
         yield return StartCoroutine(FadeOut());
-        QuestText.transform.Find("txtQuest").GetComponent<TextMeshProUGUI>().text = "정말 개운해!";
+        if (_currentMission == 1)
+            QuestText.transform.Find("txtQuest").GetComponent<TextMeshProUGUI>().text = "정말 개운해!";
+        else if (_currentMission == 5)
+            QuestText.transform.Find("txtQuest").GetComponent<TextMeshProUGUI>().text = "뽀득뽀득 남의 욕조만큼 기분 좋을 게 없지!";
     }
 }
