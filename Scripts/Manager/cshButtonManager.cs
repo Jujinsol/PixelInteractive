@@ -14,27 +14,27 @@ public class cshButtonManager : MonoBehaviour
     {
         if (SceneManager.GetActiveScene().name == "Opening")
         {
-            GameObject.Find("Canvas").transform.Find("btnStart").gameObject.GetComponent<Button>().onClick.AddListener(StartGame);
+            GameObject.Find("Canvas").transform.Find("btnStart").gameObject.GetComponent<Button>().onClick.AddListener(() =>
+            {
+                cshGameManager._inst.ButtonClick();
+                SceneManager.LoadScene("Map1");
+            });
         }
         else if (SceneManager.GetActiveScene().name == "Map1")
         {
-            GameObject.Find("Canvas").transform.Find("GameOverBackground").Find("btnRetry").gameObject.GetComponent<Button>().onClick.AddListener(Retry);
+            GameObject.Find("Canvas").transform.Find("GameOverBackground").Find("btnRetry").gameObject.GetComponent<Button>().onClick.AddListener(() =>
+            {
+                cshGameManager._inst.ButtonClick();
+                SceneManager.LoadScene("Opening");
+            });
         }
         else if (SceneManager.GetActiveScene().name == "Map2")
         {
-            GameObject.Find("Canvas").transform.Find("GameOverBackground").Find("btnRetry").gameObject.GetComponent<Button>().onClick.AddListener(Retry);
+            GameObject.Find("Canvas").transform.Find("GameOverBackground").Find("btnRetry").gameObject.GetComponent<Button>().onClick.AddListener(() =>
+            {
+                cshGameManager._inst.ButtonClick();
+                SceneManager.LoadScene("Opening");
+            });
         }
-    }
-
-    public void StartGame()
-    {
-        cshGameManager._inst.ButtonClick();
-        SceneManager.LoadScene("Map1");
-    }
-
-    public void Retry()
-    {
-        cshGameManager._inst.ButtonClick();
-        SceneManager.LoadScene("Opening");
     }
 }

@@ -52,11 +52,23 @@ public class cshGameManager : MonoBehaviour
     }
     */
 
+    private void Awake()
+    {
+        if (_inst != this && _inst != null)
+        {
+            Destroy(gameObject);
+            return;
+        }
+        else
+        {
+            _inst = this;
+            DontDestroyOnLoad(this);
+        }
+    }
+
     void Start()
     {
-        DontDestroyOnLoad(this);
         Time.timeScale = 1f;
-        _inst = this;
 
         _arrow = Resources.Load<GameObject>("Prefabs/Arrow");
         _audioSource = GetComponent<AudioSource>();

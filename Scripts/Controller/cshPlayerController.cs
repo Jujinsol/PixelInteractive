@@ -140,6 +140,8 @@ public class cshPlayerController : MonoBehaviour
         else if (collision.gameObject.tag == "Portal")
         {
             collision.GetComponent<SpriteOutline>().enabled = true;
+            if (SceneManager.GetActiveScene().name == "Map1" && GameObject.Find("Canvas")?.transform.Find("OpenBook")?.gameObject != null)
+                GameObject.Find("Canvas").transform.Find("OpenBook").gameObject.SetActive(true);
             _canGoNext = true;
         }
         else if (collision.gameObject.tag == "Door" && QuestManager._inst._acceptQuest)
@@ -157,6 +159,8 @@ public class cshPlayerController : MonoBehaviour
         else if (collision.gameObject.tag == "Portal")
         {
             collision.GetComponent<SpriteOutline>().enabled = false;
+            if (SceneManager.GetActiveScene().name == "Map1" && GameObject.Find("Canvas")?.transform.Find("OpenBook")?.gameObject != null)
+                GameObject.Find("Canvas").transform.Find("OpenBook").gameObject.SetActive(false);
             _canGoNext = false;
         }
         else if (collision.gameObject.tag == "Door")

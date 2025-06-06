@@ -1,6 +1,7 @@
 using UnityEngine;
 using static Define;
 using UnityEngine.SceneManagement;
+using UnityEngine.UI;
 
 public class BasePlayerController : cshPlayerController
 {
@@ -55,7 +56,8 @@ public class BasePlayerController : cshPlayerController
         else if (_canGoNext && Input.GetKey(KeyCode.Space))
         {
             if (SceneManager.GetActiveScene().name == "Map1")
-                SceneManager.LoadScene("Map2");
+            {
+            }
             if (SceneManager.GetActiveScene().name == "Map2")
                 SceneManager.LoadScene("Map1");
         }

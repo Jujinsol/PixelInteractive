@@ -14,7 +14,7 @@ public class ArrowController : MonoBehaviour
 
     private void OnTriggerExit2D(Collider2D collision)
     {
-        if (collision.gameObject.name == "Dino")
+        if (collision.gameObject.name == "Turtle")
         {
             _monster = collision.gameObject;
             _monster.GetComponent<cshDinoController>().Hurt();
