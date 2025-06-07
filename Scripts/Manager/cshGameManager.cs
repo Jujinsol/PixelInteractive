@@ -9,7 +9,6 @@ public class cshGameManager : MonoBehaviour
     public static cshGameManager _inst;
     public GameObject _player;
     private GameObject _eagle;
-    public int _badthings = 0;
     public GameObject _arrow;
     public int _attackPower = 10;
 
@@ -17,40 +16,6 @@ public class cshGameManager : MonoBehaviour
     AudioClip _audioClip;
 
     Dictionary<string, Vector3> _eagleSpawnPositions = new Dictionary<string, Vector3>();
-
-    /*
-    public static void InstantiateMonster(string Name)
-    {
-        GameObject go = Instantiate(Resources.Load<GameObject>($"Prefabs/Monster/{Name}"));
-        go.name = Name;
-    }
-
-    public static void InstantiatePlayer(string Name)
-    {
-        GameObject go = Instantiate(Resources.Load<GameObject>($"Prefabs/{Name}"));
-        go.name = Name;
-    }
-
-    public static void InstantiateUI(string Name)
-    {
-        GameObject go = Instantiate(Resources.Load<GameObject>($"Prefabs/UI/{Name}"));
-        go.name = Name;
-    }
-
-    public static void InstantiateMap(string Name)
-    {
-        GameObject go = Instantiate(Resources.Load<GameObject>($"Prefabs/Map/{Name}"));
-        go.name = Name;
-    }
-
-    public static void Destroy(string Name)
-    {
-        GameObject go = GameObject.Find(Name);
-        if (go == null)
-            return;
-        Destroy(go);
-    }
-    */
 
     private void Awake()
     {

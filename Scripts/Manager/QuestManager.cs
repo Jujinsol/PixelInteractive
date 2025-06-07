@@ -14,6 +14,7 @@ public class QuestManager : MonoBehaviour
     public bool _acceptQuest = false, iAmTheft = false;
     public int _diamond = 0, _currentMap = 0, _currentMission = 0;
     public string _theftColor = "";
+    public int[] finalStory = new int[11];
 
     public CanvasGroup _blackScreen;
 
@@ -85,7 +86,7 @@ public class QuestManager : MonoBehaviour
         if (SceneManager.GetActiveScene().name == "Map1")
         {
             _currentMap = 0;
-            QuestText.transform.Find("txtQuest").GetComponent<TextMeshProUGUI>().text = "저 독수리들은 다이아를 갖고 있어.\n나도 하나 갖고 싶은걸?";
+            QuestText.transform.Find("txtQuest").GetComponent<TextMeshProUGUI>().text = "저 독수리들이 내가 배신자라며 소중한 다이아를\n훔쳐갔어. 누군가 되찾아준다면 좋을 텐데...";
             GameObject.Find("Canvas").transform.Find("ImgQuest").Find("btnYes").gameObject.GetComponent<Button>().onClick.AddListener(AcceptQuest);
             GameObject.Find("Canvas").transform.Find("ImgQuest").Find("btnNo").gameObject.GetComponent<Button>().onClick.AddListener(RejectQuest);
 
@@ -116,21 +117,20 @@ public class QuestManager : MonoBehaviour
             _currentMap = 3;
             GameObject.Find("Canvas").transform.Find("ImgQuest").Find("btnYes").gameObject.GetComponent<Button>().onClick.AddListener(AcceptQuest);
             GameObject.Find("Canvas").transform.Find("ImgQuest").Find("btnNo").gameObject.GetComponent<Button>().onClick.AddListener(RejectQuest);
+            GameObject.Find("Canvas").transform.Find("FinalStory").gameObject.GetComponent<Button>().onClick.AddListener(FinalStory);
         }
-    }
-
-
-    public void test()
-    {
-        Debug.Log("TEST");
     }
 
     public void CheckQuestTxt()
     {
         if (!QuestText.activeSelf)
+        {
             QuestText.SetActive(true);
+        }
         else
+        {
             QuestText.SetActive(false);
+        }
     }
 
     public void AcceptQuest()
@@ -144,31 +144,39 @@ public class QuestManager : MonoBehaviour
         {
             case 0:
                 QuestText.transform.Find("txtQuest").GetComponent<TextMeshProUGUI>().text = "참 착하구나! 기다리고 있을게!";
+                finalStory[0] = 1;
                 DiamondQuest.SetActive(true);
                 break;
             case 1:
                 QuestText.transform.Find("txtQuest").GetComponent<TextMeshProUGUI>().text = "오호! 야망이 있구나!\n저 녀석을 공격해줘!";
+                finalStory[1] = 1;
                 break;
             case 2:
                 QuestText.transform.Find("txtQuest").GetComponent<TextMeshProUGUI>().text = "크크... 문 근처로 가서 문을 따줘\n난 여기서 망을 볼게.";
+                finalStory[2] = 1;
                 break;
             case 3:
                 switch (_currentMission)
                 {
                     case 1:
+                        finalStory[4] = 1;
                         StartCoroutine(FadeSequence());
                         break;
                     case 2:
+                        finalStory[5] = 1;
                         QuestText.transform.Find("txtQuest").GetComponent<TextMeshProUGUI>().text = "너무 무거워서 들지 못하겠는데?";
                         break;
                     case 3:
+                        finalStory[6] = 1;
                         QuestText.transform.Find("txtQuest").GetComponent<TextMeshProUGUI>().text = "먹다 남은 사과라니... 이거라도 챙겨야지.";
                         cshPlayerController._inst.Cure();
                         break;
                     case 5:
+                        finalStory[7] = 1;
                         StartCoroutine(FadeSequence());
                         break;
                     case 7:
+                        finalStory[8] = 1;
                         QuestText.transform.Find("txtQuest").GetComponent<TextMeshProUGUI>().text = "아무래도 한 몫 챙겨야겠어.";
                         Destroy(GameObject.Find("Laptop").gameObject, 2.0f);
                         break;
@@ -176,7 +184,7 @@ public class QuestManager : MonoBehaviour
                 break;
         }
 
-        cshGameManager._inst._badthings += 10;
+        Debug.Log(string.Join("", finalStory));
         _acceptQuest = true;
     }
 
@@ -194,10 +202,16 @@ public class QuestManager : MonoBehaviour
         switch (_currentMap)
         {
             case 0:
+                finalStory[0] = -1;
                 QuestText.transform.Find("txtQuest").GetComponent<TextMeshProUGUI>().text = "나 혼자 찾아보지 뭐...";
                 break;
             case 1:
+                finalStory[1] = -1;
+                GameObject.Find("Turtle").GetComponent<BoxCollider2D>().enabled = false;
+                QuestText.transform.Find("txtQuest").GetComponent<TextMeshProUGUI>().text = "겁쟁이...";
+                break;
             case 2:
+                finalStory[2] = -1;
                 GameObject.Find("Turtle").GetComponent<BoxCollider2D>().enabled = false;
                 QuestText.transform.Find("txtQuest").GetComponent<TextMeshProUGUI>().text = "겁쟁이...";
                 break;
@@ -205,26 +219,30 @@ public class QuestManager : MonoBehaviour
                 switch (_currentMission)
                 {
                     case 1:
-                        QuestText.transform.Find("txtQuest").GetComponent<TextMeshProUGUI>().text = "남 집에서 잠이나 잘 생각을 하다니!";
+                        finalStory[4] = -1;
+                        QuestText.transform.Find("txtQuest").GetComponent<TextMeshProUGUI>().text = "남 집에서 잠이나 잘 생각을 하다니!";
                         break;
                     case 2:
+                        finalStory[5] = -1;
                         QuestText.transform.Find("txtQuest").GetComponent<TextMeshProUGUI>().text = "도둑질을 하려니까 양심에 찔리는 걸...";
                         break;
                     case 3:
+                        finalStory[6] = -1;
                         QuestText.transform.Find("txtQuest").GetComponent<TextMeshProUGUI>().text = "남의 집 냉장고를 함부로 여는 사람은 되고 싶지 않아.";
                         break;
                     case 5:
+                        finalStory[7] = -1;
                         QuestText.transform.Find("txtQuest").GetComponent<TextMeshProUGUI>().text = "목욕이라니!\n머리가 정말 어떻게 됐나 봐...";
                         break;
                     case 7:
+                        finalStory[8] = -1;
                         QuestText.transform.Find("txtQuest").GetComponent<TextMeshProUGUI>().text = "도둑질을 하려니까 양심에 찔리는 걸...";
                         break;
                 }
                 break;
         }
 
-        cshGameManager._inst._badthings -= 3;
-        Debug.Log("The bad things I’ve done : " + cshGameManager._inst._badthings);
+        Debug.Log(string.Join("", finalStory));
     }
 
     public void AddDiamond()
@@ -233,7 +251,7 @@ public class QuestManager : MonoBehaviour
         if (_acceptQuest && _diamond >= 1)
         {
             DiamondQuest.transform.Find("txtDiamond").GetComponent<TextMeshProUGUI>().fontSize = 17;
-            DiamondQuest.transform.Find("txtDiamond").GetComponent<TextMeshProUGUI>().text = "NPC에게로 돌아가기";
+            DiamondQuest.transform.Find("txtDiamond").GetComponent<TextMeshProUGUI>().text = "박쥐에게로 돌아가기";
             MissionComplete();
         }
         else
@@ -268,7 +286,7 @@ public class QuestManager : MonoBehaviour
     {
         if (_theftColor == "redgreenblueyellow" && (SliderTheft.value < 0.75 && SliderTheft.value > 0.6))
         {
-            Debug.Log("OK");
+            finalStory[3] = 1;
             cshHouseController._inst.DoorUnlock();
 
             TheftQuest.SetActive(false);
@@ -298,6 +316,14 @@ public class QuestManager : MonoBehaviour
     {
         _theftColor += buttonName;
         cshGameManager._inst.ButtonClick();
+    }
+
+    void FinalStory()
+    {
+        string code = string.Join("", finalStory);
+
+        Debug.Log(code);
+        GameObject.Find("Canvas").transform.Find("OpenBook").gameObject.SetActive(true);
     }
 
     IEnumerator WaitForMouseClick1()

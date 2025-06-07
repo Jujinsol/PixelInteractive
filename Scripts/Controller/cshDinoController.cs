@@ -42,8 +42,6 @@ public class cshDinoController : MonoBehaviour
 
         _animator.SetTrigger("die");
         Destroy(gameObject, 0.8f);
-        cshGameManager._inst._badthings+=5;
-        Debug.Log("The bad things I’ve done : " + cshGameManager._inst._badthings);
 
         QuestManager._inst.MissionComplete();
     }

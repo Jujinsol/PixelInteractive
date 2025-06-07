@@ -55,9 +55,6 @@ public class BasePlayerController : cshPlayerController
         }
         else if (_canGoNext && Input.GetKey(KeyCode.Space))
         {
-            if (SceneManager.GetActiveScene().name == "Map1")
-            {
-            }
             if (SceneManager.GetActiveScene().name == "Map2")
                 SceneManager.LoadScene("Map1");
         }
