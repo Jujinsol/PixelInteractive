@@ -16,7 +16,7 @@ public class LittlePlayerController : cshPlayerController
             QuestManager._inst.QuestText.transform.Find("btnYes").gameObject.SetActive(false);
             QuestManager._inst.QuestText.transform.Find("btnNo").gameObject.SetActive(false);
         }
-        else if (collision.gameObject.name == "Bed" && QuestManager._inst.finalStory[4] == 0)
+        else if (collision.gameObject.name == "Bed" && QuestManager._inst.finalStory[6] == 0)
         {
             QuestManager._inst.QuestText.transform.Find("txtQuest").GetComponent<TextMeshProUGUI>().text = "거북이의 침대라니! 자고 갈까?";
             QuestManager._inst._currentMission = 1;
@@ -25,7 +25,7 @@ public class LittlePlayerController : cshPlayerController
             QuestManager._inst.QuestText.transform.Find("btnYes").gameObject.SetActive(true);
             QuestManager._inst.QuestText.transform.Find("btnNo").gameObject.SetActive(true);
         }
-        else if (collision.gameObject.name == "TV" && QuestManager._inst.finalStory[5] == 0)
+        else if (collision.gameObject.name == "TV" && QuestManager._inst.finalStory[7] == 0)
         {
             QuestManager._inst.QuestText.transform.Find("txtQuest").GetComponent<TextMeshProUGUI>().text = "이 티비를 가져가면 지갑이 두둑해지겠어!";
             QuestManager._inst._currentMission = 2;
@@ -34,7 +34,7 @@ public class LittlePlayerController : cshPlayerController
             QuestManager._inst.QuestText.transform.Find("btnYes").gameObject.SetActive(true);
             QuestManager._inst.QuestText.transform.Find("btnNo").gameObject.SetActive(true);
         }
-        else if (collision.gameObject.name == "Fridge" && QuestManager._inst.finalStory[6] == 0)
+        else if (collision.gameObject.name == "Fridge" && QuestManager._inst.finalStory[8] == 0)
         {
             QuestManager._inst.QuestText.transform.Find("txtQuest").GetComponent<TextMeshProUGUI>().text = "흠... 배가 고프군. 냉장고를 열어 음식을 확인해볼까?";
             QuestManager._inst._currentMission = 3;
@@ -54,7 +54,7 @@ public class LittlePlayerController : cshPlayerController
 
             GameObject.Find("Canvas").transform.Find("FinalStory").gameObject.SetActive(true);
         }
-        else if (collision.gameObject.name == "Beth" && QuestManager._inst.finalStory[7] == 0)
+        else if (collision.gameObject.name == "Beth" && QuestManager._inst.finalStory[9] == 0)
         {
             QuestManager._inst.QuestText.transform.Find("txtQuest").GetComponent<TextMeshProUGUI>().text = "목욕이라도 하고 갈까?";
             QuestManager._inst._currentMission = 5;
@@ -71,7 +71,7 @@ public class LittlePlayerController : cshPlayerController
             QuestManager._inst.QuestText.transform.Find("btnYes").gameObject.SetActive(false);
             QuestManager._inst.QuestText.transform.Find("btnNo").gameObject.SetActive(false);
         }
-        else if (collision.gameObject.name == "Laptop" && QuestManager._inst.finalStory[8] == 0)
+        else if (collision.gameObject.name == "Laptop" && QuestManager._inst.finalStory[10] == 0)
         {
             QuestManager._inst.QuestText.transform.Find("txtQuest").GetComponent<TextMeshProUGUI>().text = "값비싸보이는 노트북이다. 가져갈까?";
             QuestManager._inst._currentMission = 7;

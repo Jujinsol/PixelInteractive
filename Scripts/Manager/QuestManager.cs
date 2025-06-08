@@ -149,34 +149,34 @@ public class QuestManager : MonoBehaviour
                 break;
             case 1:
                 QuestText.transform.Find("txtQuest").GetComponent<TextMeshProUGUI>().text = "오호! 야망이 있구나!\n저 녀석을 공격해줘!";
-                finalStory[1] = 1;
+                finalStory[3] = 1;
                 break;
             case 2:
                 QuestText.transform.Find("txtQuest").GetComponent<TextMeshProUGUI>().text = "크크... 문 근처로 가서 문을 따줘\n난 여기서 망을 볼게.";
-                finalStory[2] = 1;
+                finalStory[4] = 1;
                 break;
             case 3:
                 switch (_currentMission)
                 {
                     case 1:
-                        finalStory[4] = 1;
+                        finalStory[6] = 1;
                         StartCoroutine(FadeSequence());
                         break;
                     case 2:
-                        finalStory[5] = 1;
+                        finalStory[7] = 1;
                         QuestText.transform.Find("txtQuest").GetComponent<TextMeshProUGUI>().text = "너무 무거워서 들지 못하겠는데?";
                         break;
                     case 3:
-                        finalStory[6] = 1;
+                        finalStory[8] = 1;
                         QuestText.transform.Find("txtQuest").GetComponent<TextMeshProUGUI>().text = "먹다 남은 사과라니... 이거라도 챙겨야지.";
                         cshPlayerController._inst.Cure();
                         break;
                     case 5:
-                        finalStory[7] = 1;
+                        finalStory[9] = 1;
                         StartCoroutine(FadeSequence());
                         break;
                     case 7:
-                        finalStory[8] = 1;
+                        finalStory[10] = 1;
                         QuestText.transform.Find("txtQuest").GetComponent<TextMeshProUGUI>().text = "아무래도 한 몫 챙겨야겠어.";
                         Destroy(GameObject.Find("Laptop").gameObject, 2.0f);
                         break;
@@ -248,7 +248,7 @@ public class QuestManager : MonoBehaviour
     public void AddDiamond()
     {
         _diamond++;
-        if (_acceptQuest && _diamond >= 1)
+        if (_acceptQuest && _diamond >= 5)
         {
             DiamondQuest.transform.Find("txtDiamond").GetComponent<TextMeshProUGUI>().fontSize = 17;
             DiamondQuest.transform.Find("txtDiamond").GetComponent<TextMeshProUGUI>().text = "박쥐에게로 돌아가기";
@@ -286,7 +286,7 @@ public class QuestManager : MonoBehaviour
     {
         if (_theftColor == "redgreenblueyellow" && (SliderTheft.value < 0.75 && SliderTheft.value > 0.6))
         {
-            finalStory[3] = 1;
+            finalStory[5] = 1;
             cshHouseController._inst.DoorUnlock();
 
             TheftQuest.SetActive(false);
@@ -320,9 +320,95 @@ public class QuestManager : MonoBehaviour
 
     void FinalStory()
     {
-        string code = string.Join("", finalStory);
+        string storyLine = "";
+        string storyLine2 = "";
 
-        Debug.Log(code);
+        int aboutTurtle = 0;
+
+        for (int i = 0; i < finalStory.Length; i++)
+        {
+            switch (i)
+            {
+                case 0: // 박쥐
+                    if (finalStory[i] == 1)
+                        storyLine += "당신은 낙인 찍힌 박쥐를 도와주기로 했습니다.\n";
+                    else if (finalStory[i] == -1)
+                        storyLine += "당신은 박쥐의 간절한 부탁을 외면했습니다.\n";
+                    break;
+                case 1: // 독수리 밥 줌
+                    if (finalStory[i] == 1)
+                        storyLine += "당신은 독수리에게 먹이를 주었습니다.\n";
+                    else if (finalStory[i] == -1)
+                        storyLine += "굶주린 독수리를 외면했습니다.\n";
+                    break;
+                case 2: // 독수리 죽임
+                    if (finalStory[i] == 1)
+                        storyLine += "당신은 독수리를 쓰러뜨렸습니다.\n";
+                    else if (finalStory[i] == -1)
+                        storyLine += "당신은 끝까지 생명을 빼앗지 않았습니다.\n";
+                    break;
+                case 3: // 토끼 미션 1
+                    if (finalStory[i] == 1)
+                        storyLine += "토끼의 거북이 복수 계획에 동참했습니다.\n";
+                    else if (finalStory[i] == -1)
+                        storyLine += "토끼의 복수심을 말리려 했습니다.\n";
+                    break;
+                case 4: // 토끼 미션 2
+                    if (finalStory[i] == 1)
+                        storyLine += "당신은 결국 거북이 집을 털기로 결정했습니다.\n";
+                    else if (finalStory[i] == -1)
+                        storyLine += "당신은 토끼의 계획에서 발을 뺐습니다.\n";
+                    break;
+                case 5: // 문 따기
+                    if (finalStory[i] == 1)
+                        storyLine += "거북이 집의 문을 조용히 따고 들어갔습니다.\n";
+                    else if (finalStory[i] == -1)
+                        storyLine += "문을 열려다 양심에 가책을 느끼고 멈췄습니다.\n";
+                    break;
+                case 6: // 잠 자기
+                    if (finalStory[i] == 1)
+                        aboutTurtle--;
+                    else if (finalStory[i] == -1)
+                        aboutTurtle++;
+                    break;
+
+                case 7: // 티비 훔치기
+                    if (finalStory[i] == 1)
+                        aboutTurtle--;
+                    else if (finalStory[i] == -1)
+                        aboutTurtle++;
+                    break;
+
+                case 8: // 냉장고 사과
+                    if (finalStory[i] == 1)
+                        aboutTurtle--;
+                    else if (finalStory[i] == -1)
+                        aboutTurtle++;
+                    break;
+
+                case 9: // 목욕
+                    if (finalStory[i] == 1)
+                        aboutTurtle--;
+                    else if (finalStory[i] == -1)
+                        aboutTurtle++;
+                    break;
+
+                case 10: // 랩탑 훔치기
+                    if (finalStory[i] == 1)
+                        aboutTurtle--;
+                    else if (finalStory[i] == -1)
+                        aboutTurtle++;
+                    break;
+            }
+        }
+
+        if (aboutTurtle <= -3) storyLine2 += "당신은 결국 탐욕에 굴복했습니다. 거북이의 집은 엉망이 되었습니다. 당신의 행동은 동화 속 세계에 큰 상처를 남겼습니다. 누군가의 신뢰는 한 번 무너지면 회복되기 어렵습니다.";
+        else if (aboutTurtle >= 3) storyLine2 += "결국, 당신은 온갖 유혹을 떨쳐내고 거북이의 집에서 조용히 나섰습니다.\n당신의 행동은 도덕적인 본보기가 되었고, 동화 속 세상에 평화가 찾아왔습니다.";
+        else storyLine2 += "당신은 일부 유혹에 흔들리기도 했지만 끝내 완전히 나쁘지도 착하지도 않은 선택을 했습니다.\n당신의 발자취는 누군가의 기억 속에 남겠지만, 그 끝이 해피엔딩인지는 아무도 모릅니다.";
+
+        GameObject.Find("Canvas").transform.Find("OpenBook").gameObject.transform.Find("txtOpenBook1").GetComponent<TextMeshProUGUI>().text = storyLine;
+        GameObject.Find("Canvas").transform.Find("OpenBook").gameObject.transform.Find("txtOpenBook2").GetComponent<TextMeshProUGUI>().text = storyLine2;
+
         GameObject.Find("Canvas").transform.Find("OpenBook").gameObject.SetActive(true);
     }
 

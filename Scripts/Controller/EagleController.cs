@@ -55,10 +55,10 @@ public class EagleController : cshMonsterController
     {
         base.Die();
         _animator.SetBool("die", true);
-        rand = Random.Range(0, 2);
-        //if (rand == 1) item = Resources.Load<GameObject>("Prefabs/Diamond");
-        //else item = Resources.Load<GameObject>("Prefabs/Cherry");
-        item = Resources.Load<GameObject>("Prefabs/Diamond");
+        rand = Random.Range(0, 10);
+        if (rand > 3) item = Resources.Load<GameObject>("Prefabs/Diamond");
+        else item = Resources.Load<GameObject>("Prefabs/Cherry");
+        
         GameObject go = Instantiate(item, new Vector3(transform.position.x, transform.position.y-1, 0), new Quaternion(0, 0, 0, 0));
         Destroy(gameObject, 0.8f);
         Destroy(GameObject.Find(gameObject.name + "_hpBar"), 1.0f);

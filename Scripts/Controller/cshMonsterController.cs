@@ -94,7 +94,7 @@ public class cshMonsterController : MonoBehaviour
             Cure();
             Destroy(collision.gameObject);
 
-            QuestManager._inst.finalStory[9] += 1;
+            QuestManager._inst.finalStory[1] += 1;
             Debug.Log(string.Join("", QuestManager._inst.finalStory));
         }
     }
@@ -123,7 +123,7 @@ public class cshMonsterController : MonoBehaviour
         FinalDir = FinalDir.None;
         _isDead = true;
 
-        QuestManager._inst.finalStory[10] += 1;
+        QuestManager._inst.finalStory[2] += 1;
         Debug.Log(string.Join("", QuestManager._inst.finalStory));
     }
 

@@ -2,9 +2,7 @@ using UnityEngine;
 using UnityEngine.SceneManagement;
 using static Define;
 using UnityEngine.UI;
-using Vector2 = UnityEngine.Vector2;
 using Vector3 = UnityEngine.Vector3;
-using static UnityEditor.Progress;
 using TMPro;
 
 public class cshPlayerController : MonoBehaviour
